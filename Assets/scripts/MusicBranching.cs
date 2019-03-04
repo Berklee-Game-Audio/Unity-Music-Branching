@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MusicBranching : MonoBehaviour {
 
-	public AudioSource[] audioSources;
+	//public AudioSource[] audioSources;
 	public AudioSource audiosourceA;
 	public AudioSource audiosourceB;
 	

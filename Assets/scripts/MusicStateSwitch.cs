@@ -23,10 +23,10 @@ public class MusicStateSwitch : MonoBehaviour {
 		MusicBranching musicGameObject = GameObject.FindObjectOfType(typeof(MusicBranching)) as MusicBranching;
 		musicGameObject.SwitchStates(whichState);
 
-		AudioSource audio = GetComponent<AudioSource>();
-		if(audio != null){
-			audio.Play();
-		}
+		//AudioSource audio = GetComponent<AudioSource>();
+		//if(audio != null){
+		//	audio.Play();
+	//}
         
         //audio.Play(44100);
 
