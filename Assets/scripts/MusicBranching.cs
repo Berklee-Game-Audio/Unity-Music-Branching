@@ -28,12 +28,18 @@ public class MusicBranching : MonoBehaviour {
 	private float nextCheckTime = -1.0F;
 	private bool isPlaying = true;
 	private float tempReverbTailTime = 0.0f;
-	
-	// Use this for initialization
-	void Start () {
+    private float currentClipLengthWithoutReverbTail = 0.0f;
+
+    public GameObject myTimeline;
+    public float timelineBeginningXPosition = 0.0f;
+    public float timelineEndingXPosition = 0.0f;
+
+    // Use this for initialization
+    void Start () {
 		//how long is the intro loop?
 		nextCheckTime = Time.time + intro.theAudioClip.length - intro.reverbTailTime;
-		audiosourceA.clip = intro.theAudioClip;
+        currentClipLengthWithoutReverbTail = intro.theAudioClip.length - intro.reverbTailTime;
+        audiosourceA.clip = intro.theAudioClip;
 		audiosourceA.Play();
 
 		//audioSources[0].clip = intro.theAudioClip;
@@ -41,12 +47,22 @@ public class MusicBranching : MonoBehaviour {
 
 		altSource = true;
 		Debug.Log("Start");
-	}
+        //myTimeline.transform.position.x
+        myTimeline.transform.position = new Vector3(timelineBeginningXPosition, myTimeline.transform.position.y, myTimeline.transform.position.z);
+
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+        //calculate the percentage
+        float timelinePercentage = (nextCheckTime - Time.time) / currentClipLengthWithoutReverbTail;
+        //Debug.Log("update - timelinePercentage: " + timelinePercentage);
+
+        float newTimelinePosition = timelineEndingXPosition - timelinePercentage * (timelineEndingXPosition - timelineBeginningXPosition);
+
+        myTimeline.transform.position = new Vector3(newTimelinePosition, myTimeline.transform.position.y, myTimeline.transform.position.z);
+    }
 	
 	// Called more often
 	void FixedUpdate () {
@@ -104,13 +120,15 @@ public class MusicBranching : MonoBehaviour {
 		if(altSource){
 			Debug.Log("Playing: " + nextClip.name);
 			nextCheckTime = Time.time + nextClip.length - tempReverbTailTime;
-			audiosourceB.clip = nextClip;
+            currentClipLengthWithoutReverbTail = nextClip.length - tempReverbTailTime;
+            audiosourceB.clip = nextClip;
 			audiosourceB.Play();
 			altSource = false;
 		} else {
 			Debug.Log("Playing: " + nextClip.name);
 			nextCheckTime = Time.time + nextClip.length - tempReverbTailTime;
-			audiosourceA.clip = nextClip;
+            currentClipLengthWithoutReverbTail = nextClip.length - tempReverbTailTime;
+            audiosourceA.clip = nextClip;
 			audiosourceA.Play();
 			altSource = true;
 		
