@@ -29,6 +29,8 @@ public class MusicBranching : MonoBehaviour {
 	private bool isPlaying = true;
 	private float tempReverbTailTime = 0.0f;
     private float currentClipLengthWithoutReverbTail = 0.0f;
+    private bool hasStarted = false;
+    private bool firstFrameDrawn = false;
 
     public GameObject myTimeline;
     public float timelineBeginningXPosition = 0.0f;
@@ -37,37 +39,57 @@ public class MusicBranching : MonoBehaviour {
     // Use this for initialization
     void Start () {
 		//how long is the intro loop?
-		nextCheckTime = Time.time + intro.theAudioClip.length - intro.reverbTailTime;
-        currentClipLengthWithoutReverbTail = intro.theAudioClip.length - intro.reverbTailTime;
-        audiosourceA.clip = intro.theAudioClip;
-		audiosourceA.Play();
+		
 
-		//audioSources[0].clip = intro.theAudioClip;
-		//audioSources[0].Play();
-
-		altSource = true;
 		Debug.Log("Start");
         //myTimeline.transform.position.x
-        myTimeline.transform.position = new Vector3(timelineBeginningXPosition, myTimeline.transform.position.y, myTimeline.transform.position.z);
+
 
 
     }
 	
 	// Update is called once per frame
 	void Update () {
-        //calculate the percentage
-        float timelinePercentage = (nextCheckTime - Time.time) / currentClipLengthWithoutReverbTail;
-        //Debug.Log("update - timelinePercentage: " + timelinePercentage);
+        if (!hasStarted && Time.realtimeSinceStartup > 4.0f)
+        {
+            audiosourceA.clip = intro.theAudioClip;
+            audiosourceA.Play();
 
-        float newTimelinePosition = timelineEndingXPosition - timelinePercentage * (timelineEndingXPosition - timelineBeginningXPosition);
+            nextCheckTime = Time.time + intro.theAudioClip.length - intro.reverbTailTime;
+            currentClipLengthWithoutReverbTail = intro.theAudioClip.length - intro.reverbTailTime;
 
-        myTimeline.transform.position = new Vector3(newTimelinePosition, myTimeline.transform.position.y, myTimeline.transform.position.z);
+            //audioSources[0].clip = intro.theAudioClip;
+            //audioSources[0].Play();
+
+            altSource = true;
+            hasStarted = true;
+            firstFrameDrawn = true;
+
+            myTimeline.transform.position = new Vector3(timelineBeginningXPosition, myTimeline.transform.position.y, myTimeline.transform.position.z);
+
+        }
+
+        if(firstFrameDrawn)
+        {
+            float timelinePercentage = (nextCheckTime - Time.time) / currentClipLengthWithoutReverbTail;
+            //Debug.Log("update - timelinePercentage: " + timelinePercentage);
+
+            float newTimelinePosition = timelineEndingXPosition - timelinePercentage * (timelineEndingXPosition - timelineBeginningXPosition);
+
+            myTimeline.transform.position = new Vector3(newTimelinePosition, myTimeline.transform.position.y, myTimeline.transform.position.z);
+        }
+       
+
     }
 	
 	// Called more often
 	void FixedUpdate () {
-		//Debug.Log("fixed update = " + nextCheckTime + " " + Time.time);
-		
+        //Debug.Log("fixed update = " + nextCheckTime + " " + Time.time);
+        if (!firstFrameDrawn)
+        {
+            return;
+        }
+
 		if(Time.time >= nextCheckTime && nextCheckTime != -1.0f){
 			nextCheckTime = -1.0f;
 			PlayNext();			
