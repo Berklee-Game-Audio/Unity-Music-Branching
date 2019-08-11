@@ -897,7 +897,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 512392245}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.16, y: 1.54, z: -0.68}
+  m_LocalPosition: {x: -0.43, y: 1.54, z: -0.68}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -925,13 +925,13 @@ MonoBehaviour:
     reverbTailTime: 0
   state1:
   - theAudioClip: {fileID: 8300000, guid: 29c1602e35c7647caae69371f35e42d9, type: 3}
-    reverbTailTime: 0
+    reverbTailTime: 2.5
   - theAudioClip: {fileID: 8300000, guid: 68494d6bff86c488bb84626aae986c31, type: 3}
-    reverbTailTime: 0
+    reverbTailTime: 2.5
   - theAudioClip: {fileID: 8300000, guid: 5dddaca92faaa4493ad02d9eb1c35e05, type: 3}
-    reverbTailTime: 0
+    reverbTailTime: 2.5
   - theAudioClip: {fileID: 8300000, guid: d2ae5fc1ad3b1427fa655a1242296510, type: 3}
-    reverbTailTime: 0
+    reverbTailTime: 2.5
   state2:
   - theAudioClip: {fileID: 8300000, guid: 5840ee77dd5814751b7ed3ac5e43fca2, type: 3}
     reverbTailTime: 0
